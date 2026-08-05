@@ -75,7 +75,6 @@
       font-size: .8rem;
       font-weight: 600;
     }
-    .badge-blue { background: #dbeafe; color: #1d4ed8; }
     .badge-green { background: #dcfce7; color: #15803d; }
     footer {
       text-align: center;
@@ -98,11 +97,11 @@
   <a href="#instalasi">Instalasi</a>
   <a href="#konfigurasi">Konfigurasi</a>
   <a href="#contoh">Contoh</a>
-  <a href="https://github.com/USERNAME/widget-aksesibilitas">GitHub</a>
+  <a href="https://github.com/godzam/widget-aksesibilitas">GitHub</a>
 </nav>
 
 <main>
-  <p><span class="badge badge-green">✓ Widget aktif</span> — Lihat tombol ♿ di pojok kiri bawah layar.</p>
+  <p><span class="badge badge-green">✓ Widget aktif</span> — Lihat tombol ♿ di sudut layar.</p>
 
   <h2 id="fitur">Fitur Lengkap</h2>
 
@@ -123,9 +122,9 @@
       <li><strong>Inversi warna</strong> — balik semua warna halaman</li>
       <li><strong>Latar gelap</strong> — dark mode instan via CSS filter</li>
       <li><strong>Abu-abu</strong> — mode grayscale seluruh halaman</li>
-      <li><strong>Buta warna Deuteranopia</strong> — simulasi/koreksi buta warna merah-hijau (tipe 1)</li>
-      <li><strong>Buta warna Protanopia</strong> — simulasi/koreksi buta warna merah-hijau (tipe 2)</li>
-      <li><strong>Buta warna Tritanopia</strong> — simulasi/koreksi buta warna biru-kuning</li>
+      <li><strong>Buta warna Deuteranopia</strong> — filter merah-hijau (tipe 1)</li>
+      <li><strong>Buta warna Protanopia</strong> — filter merah-hijau (tipe 2)</li>
+      <li><strong>Buta warna Tritanopia</strong> — filter biru-kuning</li>
     </ul>
   </div>
 
@@ -134,7 +133,7 @@
     <ul>
       <li><strong>Area klik besar</strong> — perbesar semua tombol dan link ke minimal 44×44px (standar WCAG)</li>
       <li><strong>Kursor besar</strong> — ganti kursor dengan ukuran lebih besar</li>
-      <li><strong>Tombol dapat diseret</strong> — pindahkan tombol widget ke posisi nyaman</li>
+      <li><strong>Tombol dapat diseret</strong> — pindahkan tombol widget ke posisi nyaman (mouse & touch)</li>
     </ul>
   </div>
 
@@ -151,43 +150,45 @@
 
   <h2 id="instalasi">Instalasi</h2>
 
-  <h3>WordPress (via WPCode)</h3>
-  <ol>
-    <li>Install plugin <strong>WPCode</strong> (gratis di WordPress.org)</li>
-    <li>WPCode → Add Snippet → HTML Snippet</li>
-    <li>Tempel kode berikut:</li>
-  </ol>
-  <pre><code>&lt;script src="https://cdn.jsdelivr.net/gh/USERNAME/widget-aksesibilitas@latest/widget-aksesibilitas.min.js" defer&gt;&lt;/script&gt;</code></pre>
-  <ol start="4">
-    <li>Pilih lokasi: <strong>Footer</strong></li>
-    <li>Save & Activate</li>
-  </ol>
+  <h3>Satu baris, langsung jalan</h3>
+  <pre><code>&lt;!-- Set config dulu --&gt;
+&lt;script&gt;
+window.WAKConfig = {
+  color: '#1a6fb5',
+  hside: 'left',
+  cols: 3
+};
+&lt;/script&gt;
 
-  <h3>HTML Biasa</h3>
-  <pre><code>&lt;!-- Tempel sebelum &lt;/body&gt; --&gt;
-&lt;script src="widget-aksesibilitas.min.js" defer&gt;&lt;/script&gt;</code></pre>
-
-  <h3>Self-host (direkomendasikan instansi pemerintah)</h3>
-  <p>Download file <code>widget-aksesibilitas.min.js</code>, upload ke server Anda sendiri, lalu embed dengan path lokal. Ini menghilangkan ketergantungan pada CDN pihak luar.</p>
+&lt;!-- Load widget --&gt;
+&lt;script src="https://cdn.jsdelivr.net/gh/godzam/widget-aksesibilitas@latest/widget-aksesibilitas.min.js" defer&gt;&lt;/script&gt;</code></pre>
 
   <h2 id="konfigurasi">Konfigurasi</h2>
-  <p>Edit bagian <code>CFG</code> di baris paling atas file <code>widget-aksesibilitas.js</code>:</p>
-  <pre><code>var CFG = {
-  color:  '#1a6fb5',  // Warna tombol utama (hex)
-  vside:  'bottom',   // 'bottom' atau 'top'
-  hside:  'left',     // 'left' atau 'right'
-  vval:   '24px',     // Jarak dari tepi vertikal
-  hval:   '24px',     // Jarak dari tepi horizontal
-  cols:   3,          // Kolom grid menu: 2, 3, atau 4
+  <pre><code>window.WAKConfig = {
+  color: '#1a6fb5',   // warna tombol (hex)
+  vside: 'bottom',    // 'bottom' atau 'top'
+  hside: 'left',      // 'left' atau 'right'
+  vval:  '24px',      // jarak vertikal
+  hval:  '24px',      // jarak horizontal
+  cols:  3,           // kolom grid: 2, 3, atau 4
+
+  // Fitur yang disembunyikan:
+  disabled: [
+    // 'fontUp', 'fontDn', 'spasi', 'lineH',
+    // 'bigclick', 'dyslexia', 'invert', 'dark',
+    // 'gray', 'deuter', 'protan', 'tritan',
+    // 'ulink', 'hideimg', 'stopgif', 'focus',
+    // 'cursor', 'guide', 'anim', 'cc', 'reset'
+  ]
 };</code></pre>
 
-  <h2 id="contoh">Contoh Konten untuk Uji Coba</h2>
+  <h2 id="contoh">Contoh Konten untuk Uji Coba Widget</h2>
 
   <article>
     <h3>Tentang Aksesibilitas Digital</h3>
     <p>
-      Aksesibilitas digital adalah praktik memastikan bahwa website dan aplikasi dapat digunakan
-      oleh semua orang, termasuk penyandang disabilitas. Di Indonesia, UU No. 8 Tahun 2016
+      Aksesibilitas digital memastikan bahwa website dan aplikasi dapat digunakan
+      oleh semua orang, termasuk penyandang disabilitas. UU No. 8 Tahun 2016
       tentang Penyandang Disabilitas mengamanatkan pemenuhan hak akses informasi bagi semua warga.
     </p>
     <p>
@@ -198,13 +199,13 @@
     </p>
     <img src="https://placehold.co/600x200/1a6fb5/ffffff?text=Gambar+Demo" alt="Gambar demo aksesibilitas">
     <p>
-      Website yang aksesibel bukan hanya memenuhi kewajiban hukum, tetapi juga meningkatkan
-      pengalaman semua pengguna — termasuk pengguna dengan koneksi lambat, layar kecil,
-      atau yang mengakses konten di lingkungan dengan cahaya terang.
+      Website yang aksesibel bukan hanya memenuhi kewajiban hukum, tetapi juga
+      meningkatkan pengalaman semua pengguna — termasuk pengguna dengan koneksi lambat,
+      layar kecil, atau yang mengakses konten di lingkungan dengan cahaya terang.
     </p>
     <h3>Tips Implementasi</h3>
     <ul>
-      <li>Gunakan heading yang berurutan (H1, H2, H3) — jangan melompat</li>
+      <li>Gunakan heading yang berurutan (H1, H2, H3)</li>
       <li>Setiap gambar harus memiliki atribut <code>alt</code> yang deskriptif</li>
       <li>Pastikan kontras teks minimal 4.5:1 (WCAG AA)</li>
       <li>Semua fungsi harus dapat diakses dengan keyboard</li>
@@ -257,11 +258,21 @@
 </main>
 
 <footer>
-  <p>Widget Aksesibilitas Indonesia — MIT License — <a href="https://github.com/USERNAME/widget-aksesibilitas">GitHub</a></p>
+  <p>Widget Aksesibilitas Indonesia — MIT License —
+    <a href="https://github.com/godzam/widget-aksesibilitas">github.com/godzam/widget-aksesibilitas</a>
+  </p>
 </footer>
 
-<!-- Widget Aksesibilitas -->
-<script src="../widget-aksesibilitas.min.js" defer></script>
+<!-- Widget: config dulu, baru load script -->
+<script>
+window.WAKConfig = {
+  color: '#1a6fb5',
+  hside: 'left',
+  vside: 'bottom',
+  cols: 3
+};
+</script>
+<script src="https://cdn.jsdelivr.net/gh/godzam/widget-aksesibilitas@latest/widget-aksesibilitas.min.js" defer></script>
 
 </body>
 </html>
