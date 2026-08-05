@@ -1,7 +1,7 @@
 # Widget Aksesibilitas Indonesia 🇮🇩
 
-**Widget aksesibilitas ringan, gratis, dan bebas dependensi untuk website pemerintah dan umum.**  
-*Lightweight, free, zero-dependency accessibility widget for Indonesian government and general websites.*
+**Widget aksesibilitas ringan, gratis, dan bebas dependensi untuk semua jenis website.**  
+*Lightweight, free, zero-dependency accessibility widget for any website.*
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Ukuran](https://img.shields.io/badge/ukuran-%3C25KB-green)](widget-aksesibilitas.min.js)
@@ -11,7 +11,7 @@
 
 ## Demo
 
-Lihat langsung di: **[disdik.sumbarprov.go.id](https://disdik.sumbarprov.go.id)**
+Lihat live: **[godzam.github.io/widget-aksesibilitas](https://godzam.github.io/widget-aksesibilitas/)**
 
 ---
 
@@ -36,7 +36,7 @@ Lihat langsung di: **[disdik.sumbarprov.go.id](https://disdik.sumbarprov.go.id)*
 | ⏸ Stop animasi | Hentikan semua animasi dan transisi CSS |
 | ⊡ Aktifkan CC | Paksa subtitle/caption video aktif |
 | ↺ Reset semua | Kembalikan semua pengaturan ke default |
-| 🖱 Tombol dapat diseret | Pindahkan tombol ke mana saja di layar |
+| 🖱 Tombol dapat diseret | Pindahkan tombol ke mana saja di layar (mouse & touch) |
 | 💾 Simpan preferensi | Pengaturan tersimpan otomatis via localStorage |
 
 ---
@@ -46,39 +46,59 @@ Lihat langsung di: **[disdik.sumbarprov.go.id](https://disdik.sumbarprov.go.id)*
 ### Cara 1 — CDN (paling mudah)
 
 ```html
+<!-- Letakkan sebelum </body> -->
+<script>
+window.WAKConfig = {
+  color: '#1a6fb5'   // sesuaikan warna
+};
+</script>
 <script src="https://cdn.jsdelivr.net/gh/godzam/widget-aksesibilitas@latest/widget-aksesibilitas.min.js" defer></script>
 ```
 
-> Ganti `godzam` dengan username GitHub Anda setelah upload.
-
-### Cara 2 — Self-host (direkomendasikan untuk instansi pemerintah)
+### Cara 2 — Self-host (direkomendasikan)
 
 1. Download `widget-aksesibilitas.min.js`
 2. Upload ke server Anda
-3. Tambahkan tag script sebelum `</body>`:
+3. Tambahkan sebelum `</body>`:
 
 ```html
+<script>
+window.WAKConfig = { color: '#1a6fb5' };
+</script>
 <script src="/path/to/widget-aksesibilitas.min.js" defer></script>
 ```
 
 ### Cara 3 — WordPress via WPCode
 
-1. Install plugin **WPCode** (gratis)
+1. Install plugin **WPCode** (gratis di WordPress.org)
 2. WPCode → Add Snippet → HTML Snippet
-3. Tempel tag script di atas
-4. Pilih lokasi **Footer**
-5. Save & Activate
+3. Tempel kode berikut, pilih lokasi **Footer**, Save & Activate:
+
+```html
+<script>
+window.WAKConfig = {
+  color: '#1a6fb5',
+  hside: 'right',
+  disabled: ['cc']
+};
+</script>
+<script src="https://cdn.jsdelivr.net/gh/godzam/widget-aksesibilitas@latest/widget-aksesibilitas.min.js" defer></script>
+```
 
 ### Cara 4 — WordPress via `functions.php`
 
 ```php
+add_action('wp_head', function() { ?>
+<script>
+window.WAKConfig = { color: '#1a6fb5', cols: 3 };
+</script>
+<?php });
+
 add_action('wp_enqueue_scripts', function() {
     wp_enqueue_script(
         'widget-aksesibilitas',
         get_stylesheet_directory_uri() . '/js/widget-aksesibilitas.min.js',
-        [],
-        '1.0',
-        true // load di footer
+        [], '1.0', true
     );
 });
 ```
@@ -87,31 +107,84 @@ add_action('wp_enqueue_scripts', function() {
 
 ## Konfigurasi
 
-Edit bagian `CFG` di baris paling atas file `widget-aksesibilitas.js`:
+Semua konfigurasi dilakukan via `window.WAKConfig` — **harus di-set sebelum tag script widget**.
 
+```html
+<script>
+window.WAKConfig = {
+
+  // ── Tampilan tombol ─────────────────────────────────────
+  color: '#1a6fb5',   // warna tombol utama (hex)
+  vside: 'bottom',    // posisi vertikal: 'bottom' atau 'top'
+  hside: 'left',      // posisi horizontal: 'left' atau 'right'
+  vval:  '24px',      // jarak dari tepi vertikal
+  hval:  '24px',      // jarak dari tepi horizontal
+  cols:  3,           // kolom grid menu: 2, 3, atau 4
+
+  // ── Fitur yang disembunyikan ─────────────────────────────
+  // Hapus komentar (//) pada baris yang ingin disembunyikan
+  disabled: [
+    // 'fontUp',    // perbesar teks
+    // 'fontDn',    // perkecil teks
+    // 'spasi',     // spasi teks
+    // 'lineH',     // jarak baris
+    // 'bigclick',  // area klik besar
+    // 'dyslexia',  // font disleksia
+    // 'invert',    // inversi warna
+    // 'dark',      // latar gelap
+    // 'gray',      // abu-abu
+    // 'deuter',    // buta warna Deuteranopia
+    // 'protan',    // buta warna Protanopia
+    // 'tritan',    // buta warna Tritanopia
+    // 'ulink',     // garis bawah link
+    // 'hideimg',   // sembunyikan gambar
+    // 'stopgif',   // stop GIF/video
+    // 'focus',     // mode fokus
+    // 'cursor',    // kursor besar
+    // 'guide',     // panduan baca
+    // 'anim',      // stop animasi
+    // 'cc',        // aktifkan CC video
+    // 'reset',     // reset semua
+  ]
+};
+</script>
+```
+
+### Contoh konfigurasi umum
+
+**Website berita / portal:**
 ```javascript
-var CFG = {
-  color:  '#1a6fb5',  // Warna tombol utama (hex)
-  vside:  'bottom',   // Posisi vertikal: 'bottom' atau 'top'
-  hside:  'left',     // Posisi horizontal: 'left' atau 'right'
-  vval:   '24px',     // Jarak dari tepi vertikal
-  hval:   '24px',     // Jarak dari tepi horizontal
-  cols:   3,          // Jumlah kolom grid menu: 2, 3, atau 4
-  lang:   'id-ID'     // Kode bahasa (tidak dipakai saat ini, untuk pengembangan)
+window.WAKConfig = {
+  color: '#c0392b', cols: 3, hside: 'right',
+  disabled: ['cc', 'stopgif']
 };
 ```
 
-Setelah edit, simpan file dan upload ulang ke server.
+**Sekolah / pendidikan:**
+```javascript
+window.WAKConfig = {
+  color: '#2563eb', cols: 3,
+  disabled: ['deuter', 'protan', 'tritan', 'cc']
+};
+```
+
+**Minimalis (fitur dasar saja):**
+```javascript
+window.WAKConfig = {
+  color: '#374151', cols: 2,
+  disabled: ['deuter','protan','tritan','stopgif','cc','focus','bigclick']
+};
+```
 
 ---
 
 ## Cara Kerja
 
-Widget berjalan sepenuhnya di sisi klien (browser). Tidak ada data yang dikirim ke server manapun. Semua preferensi disimpan di `localStorage` browser pengguna.
+Widget berjalan sepenuhnya di sisi klien (browser). **Tidak ada data yang dikirim ke server manapun.** Semua preferensi disimpan di `localStorage` browser pengguna.
 
-**Font disleksia** (OpenDyslexic) dimuat secara *lazy* — hanya diunduh dari jsDelivr saat pengguna pertama kali mengaktifkan fitur tersebut, menggunakan FontFace API untuk memastikan font siap sebelum diterapkan.
+**Font disleksia** (OpenDyslexic) dimuat secara *lazy* via FontFace API — hanya diunduh saat pengguna pertama kali mengaktifkan fitur tersebut.
 
-**Filter buta warna** menggunakan SVG `feColorMatrix` yang diinjeksi ke DOM — tidak butuh library eksternal, tidak ada request jaringan tambahan.
+**Filter buta warna** menggunakan SVG `feColorMatrix` yang diinjeksi ke DOM — tidak butuh library eksternal.
 
 ---
 
@@ -129,76 +202,55 @@ Widget berjalan sepenuhnya di sisi klien (browser). Tidak ada data yang dikirim 
 
 ## Standar Aksesibilitas
 
-Widget ini mendukung (sebagian) standar berikut:
+Widget ini membantu memenuhi (sebagian) standar:
 - **WCAG 2.1** Level AA
-- **Peraturan Menteri Kominfo No. 5 Tahun 2021** tentang penyelenggaraan telekomunikasi
 - **UU No. 8 Tahun 2016** tentang Penyandang Disabilitas
+- **Peraturan Menteri Kominfo No. 5 Tahun 2021**
 
-> ⚠️ **Catatan penting:** Widget aksesibilitas adalah pelengkap, bukan pengganti HTML yang aksesibel. Untuk kepatuhan penuh, pastikan markup HTML Anda sudah semantik, gambar memiliki `alt` yang bermakna, dan navigasi keyboard berfungsi dengan baik. Gunakan alat audit seperti [axe DevTools](https://www.deque.com/axe/) atau [Lighthouse](https://developer.chrome.com/docs/lighthouse/) untuk memeriksa halaman Anda.
+> ⚠️ Widget aksesibilitas adalah **pelengkap**, bukan pengganti HTML yang aksesibel. Pastikan markup Anda sudah semantik, gambar memiliki `alt`, dan navigasi keyboard berfungsi. Gunakan [axe DevTools](https://www.deque.com/axe/) atau [Lighthouse](https://developer.chrome.com/docs/lighthouse/) untuk audit lengkap.
 
 ---
 
 ## Pengembangan
 
 ```bash
-# Clone repo
 git clone https://github.com/godzam/widget-aksesibilitas.git
 cd widget-aksesibilitas
-
-# Edit file utama
-# widget-aksesibilitas.js — versi terbaca (untuk pengembangan)
-# widget-aksesibilitas.min.js — versi produksi (untuk deployment)
 ```
 
-Tidak ada build tool yang dibutuhkan. Widget ditulis dalam vanilla JavaScript ES5 agar kompatibel dengan browser lama dan tidak memerlukan transpiler.
+Tidak ada build tool yang dibutuhkan. Ditulis dalam vanilla JavaScript ES5 tanpa transpiler.
 
----
-
-## Struktur File
-
+Struktur:
 ```
 widget-aksesibilitas/
-├── widget-aksesibilitas.js       # Source utama (terbaca, berkommentar)
-├── widget-aksesibilitas.min.js   # Versi produksi (diminifikasi)
+├── widget-aksesibilitas.js       # Source (terbaca, berkommentar)
+├── widget-aksesibilitas.min.js   # Produksi (diminifikasi)
 ├── demo/
 │   └── index.html                # Halaman demo
-├── LICENSE                       # MIT License
-└── README.md                     # Dokumentasi ini
+├── LICENSE
+└── README.md
 ```
 
 ---
 
 ## Kontribusi
 
-Kontribusi sangat disambut! Silakan:
+Kontribusi sangat disambut:
 
 1. Fork repo ini
-2. Buat branch baru: `git checkout -b fitur/nama-fitur`
-3. Commit perubahan: `git commit -m 'Tambah fitur: ...'`
-4. Push ke branch: `git push origin fitur/nama-fitur`
+2. Buat branch: `git checkout -b fitur/nama-fitur`
+3. Commit: `git commit -m 'Tambah fitur: ...'`
+4. Push: `git push origin fitur/nama-fitur`
 5. Buat Pull Request
 
-### Yang bisa dikontribusikan
-
-- Perbaikan bug
-- Fitur aksesibilitas baru
-- Terjemahan label ke bahasa daerah (Minangkabau, Jawa, dll.)
-- Perbaikan dokumentasi
-- Contoh integrasi dengan CMS lain (Joomla, Drupal, dll.)
+Yang bisa dikontribusikan: perbaikan bug, fitur aksesibilitas baru, terjemahan label ke bahasa daerah, integrasi CMS lain (Joomla, Drupal), dan perbaikan dokumentasi.
 
 ---
 
 ## Lisensi
 
-[MIT License](LICENSE) — bebas digunakan, dimodifikasi, dan didistribusikan, termasuk untuk keperluan komersial, dengan tetap mencantumkan atribusi.
+[MIT License](LICENSE) — bebas digunakan, dimodifikasi, dan didistribusikan termasuk untuk keperluan komersial, dengan tetap mencantumkan atribusi.
 
 ---
 
-## Dibuat oleh
-
-Dikembangkan untuk kebutuhan website instansi pemerintah daerah di Sumatera Barat, Indonesia.  
-Terinspirasi dari kebutuhan nyata aksesibilitas digital di lingkungan pendidikan.
-
----
-
-*Jika widget ini bermanfaat untuk instansi atau project Anda, pertimbangkan memberi ⭐ di GitHub.*
+*Jika widget ini bermanfaat untuk project Anda, pertimbangkan memberi ⭐ di GitHub.*
