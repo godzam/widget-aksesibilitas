@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demo — Widget Aksesibilitas Indonesia</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      color: #1e293b;
+      background: #f8fafc;
+    }
+    header {
+      background: #1a6fb5;
+      color: #fff;
+      padding: 2rem 1.5rem;
+      text-align: center;
+    }
+    header h1 { font-size: 2rem; margin-bottom: .5rem; }
+    header p { opacity: .88; font-size: 1.1rem; }
+    nav {
+      background: #0f4c8a;
+      padding: .75rem 1.5rem;
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    nav a { color: #bfdbfe; text-decoration: none; font-size: .95rem; }
+    nav a:hover { color: #fff; }
+    main {
+      max-width: 800px;
+      margin: 2.5rem auto;
+      padding: 0 1.5rem 4rem;
+    }
+    h2 { font-size: 1.5rem; color: #1e40af; margin: 2rem 0 1rem; }
+    h3 { font-size: 1.15rem; margin: 1.5rem 0 .5rem; }
+    p { margin-bottom: 1rem; }
+    img { max-width: 100%; height: auto; border-radius: 8px; margin: 1rem 0; }
+    .card {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+    }
+    .card h3 { margin-top: 0; color: #1e40af; }
+    code {
+      background: #f1f5f9;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: .9em;
+    }
+    pre {
+      background: #1e293b;
+      color: #e2e8f0;
+      padding: 1.25rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin: 1rem 0;
+    }
+    pre code { background: none; padding: 0; color: inherit; font-size: .9rem; }
+    ul, ol { padding-left: 1.5rem; margin-bottom: 1rem; }
+    li { margin-bottom: .4rem; }
+    table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+    th { background: #eff6ff; color: #1e40af; text-align: left; padding: .6rem .8rem; }
+    td { padding: .5rem .8rem; border-bottom: 1px solid #e2e8f0; }
+    .badge {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-size: .8rem;
+      font-weight: 600;
+    }
+    .badge-green { background: #dcfce7; color: #15803d; }
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: #64748b;
+      font-size: .9rem;
+      border-top: 1px solid #e2e8f0;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>♿ Widget Aksesibilitas Indonesia</h1>
+  <p>Ringan • Gratis • Tanpa Dependensi • Siap Pakai</p>
+</header>
+
+<nav>
+  <a href="#fitur">Fitur</a>
+  <a href="#instalasi">Instalasi</a>
+  <a href="#konfigurasi">Konfigurasi</a>
+  <a href="#contoh">Contoh</a>
+  <a href="https://github.com/godzam/widget-aksesibilitas">GitHub</a>
+</nav>
+
+<main>
+  <p><span class="badge badge-green">✓ Widget aktif</span> — Lihat tombol ♿ di sudut layar.</p>
+
+  <h2 id="fitur">Fitur Lengkap</h2>
+
+  <div class="card">
+    <h3>Teks & Keterbacaan</h3>
+    <ul>
+      <li><strong>Perbesar / perkecil teks</strong> — sesuaikan ukuran font hingga +10px atau -4px</li>
+      <li><strong>Spasi teks</strong> — tambah letter-spacing dan word-spacing</li>
+      <li><strong>Jarak baris</strong> — perbesar line-height untuk keterbacaan lebih baik</li>
+      <li><strong>Font disleksia</strong> — ganti ke OpenDyslexic, font khusus penderita disleksia</li>
+      <li><strong>Panduan baca</strong> — garis horizontal mengikuti kursor</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Warna & Kontras</h3>
+    <ul>
+      <li><strong>Inversi warna</strong> — balik semua warna halaman</li>
+      <li><strong>Latar gelap</strong> — dark mode instan via CSS filter</li>
+      <li><strong>Abu-abu</strong> — mode grayscale seluruh halaman</li>
+      <li><strong>Buta warna Deuteranopia</strong> — filter merah-hijau (tipe 1)</li>
+      <li><strong>Buta warna Protanopia</strong> — filter merah-hijau (tipe 2)</li>
+      <li><strong>Buta warna Tritanopia</strong> — filter biru-kuning</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Navigasi & Motorik</h3>
+    <ul>
+      <li><strong>Area klik besar</strong> — perbesar semua tombol dan link ke minimal 44×44px (standar WCAG)</li>
+      <li><strong>Kursor besar</strong> — ganti kursor dengan ukuran lebih besar</li>
+      <li><strong>Tombol dapat diseret</strong> — pindahkan tombol widget ke posisi nyaman (mouse & touch)</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Konten & Gangguan</h3>
+    <ul>
+      <li><strong>Sembunyikan gambar</strong> — sembunyikan semua gambar tanpa merusak layout</li>
+      <li><strong>Stop GIF / video</strong> — bekukan animasi GIF dan hentikan video autoplay</li>
+      <li><strong>Mode fokus</strong> — redup elemen non-konten agar fokus ke teks utama</li>
+      <li><strong>Stop animasi</strong> — hentikan semua animasi dan transisi CSS</li>
+      <li><strong>Aktifkan CC</strong> — paksa subtitle/caption video aktif</li>
+    </ul>
+  </div>
+
+  <h2 id="instalasi">Instalasi</h2>
+
+  <h3>Satu baris, langsung jalan</h3>
+  <pre><code>&lt;!-- Set config dulu --&gt;
+&lt;script&gt;
+window.WAKConfig = {
+  color: '#1a6fb5',
+  hside: 'left',
+  cols: 3
+};
+&lt;/script&gt;
+
+&lt;!-- Load widget --&gt;
+&lt;script src="./widget-aksesibilitas.min.js" defer&gt;&lt;/script&gt;</code></pre>
+
+  <h2 id="konfigurasi">Konfigurasi</h2>
+  <pre><code>window.WAKConfig = {
+  color: '#1a6fb5',   // warna tombol (hex)
+  vside: 'bottom',    // 'bottom' atau 'top'
+  hside: 'left',      // 'left' atau 'right'
+  vval:  '24px',      // jarak vertikal
+  hval:  '24px',      // jarak horizontal
+  cols:  3,           // kolom grid: 2, 3, atau 4
+
+  // Fitur yang disembunyikan:
+  disabled: [
+    // 'fontUp', 'fontDn', 'spasi', 'lineH',
+    // 'bigclick', 'dyslexia', 'invert', 'dark',
+    // 'gray', 'deuter', 'protan', 'tritan',
+    // 'ulink', 'hideimg', 'stopgif', 'focus',
+    // 'cursor', 'guide', 'anim', 'cc', 'reset'
+  ]
+};</code></pre>
+
+  <h2 id="contoh">Contoh Konten untuk Uji Coba Widget</h2>
+
+  <article>
+    <h3>Tentang Aksesibilitas Digital</h3>
+    <p>
+      Aksesibilitas digital memastikan bahwa website dan aplikasi dapat digunakan
+      oleh semua orang, termasuk penyandang disabilitas. UU No. 8 Tahun 2016
+      tentang Penyandang Disabilitas mengamanatkan pemenuhan hak akses informasi bagi semua warga.
+    </p>
+    <p>
+      Menurut data WHO, sekitar 15% populasi dunia hidup dengan kondisi disabilitas.
+      Artinya, dari setiap 100 pengunjung website Anda, sekitar 15 orang mungkin memiliki
+      kebutuhan aksesibilitas yang berbeda — mulai dari gangguan penglihatan, disleksia,
+      gangguan motorik, hingga buta warna.
+    </p>
+    <img src="https://placehold.co/600x200/1a6fb5/ffffff?text=Gambar+Demo" alt="Gambar demo aksesibilitas">
+    <p>
+      Website yang aksesibel bukan hanya memenuhi kewajiban hukum, tetapi juga
+      meningkatkan pengalaman semua pengguna — termasuk pengguna dengan koneksi lambat,
+      layar kecil, atau yang mengakses konten di lingkungan dengan cahaya terang.
+    </p>
+    <h3>Tips Implementasi</h3>
+    <ul>
+      <li>Gunakan heading yang berurutan (H1, H2, H3)</li>
+      <li>Setiap gambar harus memiliki atribut <code>alt</code> yang deskriptif</li>
+      <li>Pastikan kontras teks minimal 4.5:1 (WCAG AA)</li>
+      <li>Semua fungsi harus dapat diakses dengan keyboard</li>
+      <li>Tambahkan link "Lewati ke konten utama" di bagian atas halaman</li>
+    </ul>
+  </article>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Jenis Disabilitas</th>
+        <th>Persentase</th>
+        <th>Fitur yang Membantu</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Gangguan penglihatan</td>
+        <td>~2.2%</td>
+        <td>Perbesar teks, Inversi warna, Kontras tinggi</td>
+      </tr>
+      <tr>
+        <td>Buta warna</td>
+        <td>~8% (laki-laki)</td>
+        <td>Filter Deuteranopia, Protanopia, Tritanopia</td>
+      </tr>
+      <tr>
+        <td>Disleksia</td>
+        <td>~10–15%</td>
+        <td>Font disleksia, Spasi teks, Jarak baris</td>
+      </tr>
+      <tr>
+        <td>Gangguan motorik</td>
+        <td>~7%</td>
+        <td>Area klik besar, Kursor besar</td>
+      </tr>
+      <tr>
+        <td>Fotosensitif / epilepsi</td>
+        <td>~0.5–3%</td>
+        <td>Stop animasi, Stop GIF/video</td>
+      </tr>
+      <tr>
+        <td>ADHD / gangguan fokus</td>
+        <td>~5–7%</td>
+        <td>Mode fokus, Sembunyikan gambar</td>
+      </tr>
+    </tbody>
+  </table>
+
+</main>
+
+<footer>
+  <p>Widget Aksesibilitas Indonesia — MIT License —
+    <a href="https://github.com/godzam/widget-aksesibilitas">github.com/godzam/widget-aksesibilitas</a>
+  </p>
+</footer>
+
+<!-- Widget: config dulu, baru load script -->
+<script>
+window.WAKConfig = {
+  color: '#1a6fb5',
+  hside: 'left',
+  vside: 'bottom',
+  cols: 3
+};
+</script>
+<script src="./widget-aksesibilitas.min.js" defer></script>
+
+</body>
+</html>
