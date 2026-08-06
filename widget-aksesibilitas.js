@@ -502,69 +502,125 @@ function handleStopGIF(on){
 
 function handleFocusMode(on){
   if(on){
-    // Cari elemen konten utama
-    var SELECTORS='main,article,[role="main"],.entry-content,.post-content,.post-body,'+
-      '#content,.content-area,.site-content,.main-content,#main,#primary';
-    var main=document.querySelector(SELECTORS);
+    // Selector konten utama — urutan dari paling spesifik ke paling umum
+    var CONTENT_SEL=[
+      '.entry-content','.post-content','.post-body',
+      'article .content','article',
+      '[role="main"]','main',
+      '#content .hentry','#content',
+      '.site-main','#primary','#main',
+      '.main-content','.content-area'
+    ];
+
+    // Selector elemen yang PASTI harus disembunyikan di WordPress
+    var HIDE_SEL=[
+      // Sidebar & widget
+      '#secondary','#sidebar','.sidebar','.widget-area',
+      '[id*="sidebar"]','[class*="sidebar"]',
+      '.widgets-area','.widget_area',
+      // Navigasi
+      '#site-navigation','.site-navigation',
+      '.nav-primary','.nav-secondary',
+      '.main-navigation','#main-nav',
+      'nav:not(article nav)',
+      // Header & footer
+      '.site-header header','header.site-header',
+      '.site-footer footer','footer.site-footer',
+      '#masthead','#colophon',
+      // Iklan & promo
+      '[class*="advert"]','[class*="banner"]','[id*="advert"]',
+      '[class*=" ad-"]','[class*="ads-"]','[id*="-ad-"]',
+      '.wp-block-group:not(article .wp-block-group)',
+      // Related posts, comments
+      '#comments','.related-posts',
+      '[class*="related"]','[class*="comment"]',
+      // Breadcrumb
+      '.breadcrumb','[class*="breadcrumb"]',
+      // Social share
+      '[class*="social"]','[class*="share"]',
+      // Sticky bars & popups
+      '[class*="sticky"]','[class*="popup"]','[class*="modal"]',
+      '[class*="newsletter"]','[class*="subscribe"]'
+    ].join(',');
+
+    // Cari konten utama
+    var main=null;
+    for(var i=0;i<CONTENT_SEL.length;i++){
+      var el=document.querySelector(CONTENT_SEL[i]);
+      if(el&&(el.innerText||'').trim().length>100){main=el;break;}
+    }
+
+    // Fallback: elemen dengan teks terbanyak
     if(!main){
-      // Fallback: cari elemen yang paling banyak teks di dalam body
       var best=null,bestLen=0;
-      document.body.children&&Array.prototype.forEach.call(document.body.children,function(el){
-        if(el.id==='wak')return;
+      document.querySelectorAll('div,section,article').forEach(function(el){
+        if(el.id==='wak'||el.closest('#wak'))return;
         var len=(el.innerText||'').length;
-        if(len>bestLen){bestLen=len;best=el;}
+        if(len>bestLen&&el.offsetParent!==null){bestLen=len;best=el;}
       });
       main=best;
     }
+
     if(!main){setOn('focus',false);S.focus=false;return;}
 
-    // Kumpulkan semua ancestor main sampai body agar tidak ikut disembunyikan
-    var ancestors=new Set();
+    // Tandai konten utama dan semua ancestor-nya
+    var ancestors=[];
     var cur=main;
-    while(cur&&cur!==document.body){ancestors.add(cur);cur=cur.parentElement;}
-
-    // Sembunyikan semua child body yang bukan ancestor/bukan main/bukan widget
-    Array.prototype.forEach.call(document.body.children,function(el){
-      if(el.id==='wak'||el.id==='wak-ruler'||el.id==='wak-svgfilter')return;
-      if(ancestors.has(el))return;
-      el.dataset.wakFocusHide='1';
-      el.style.setProperty('visibility','hidden','important');
-      el.style.setProperty('pointer-events','none','important');
-    });
-
-    // Pastikan ancestor dan konten tetap visible
-    ancestors.forEach(function(el){
-      el.style.removeProperty('visibility');
-      el.style.removeProperty('pointer-events');
-    });
-
-    // Redup elemen saudara di level yang sama dengan main (header/footer dalam wrapper)
-    if(main.parentElement&&main.parentElement!==document.body){
-      Array.prototype.forEach.call(main.parentElement.children,function(el){
-        if(el===main||el.contains(main))return;
-        if(el.id==='wak'||el.id==='wak-ruler')return;
-        el.dataset.wakFocusDim='1';
-        el.style.setProperty('opacity','0.08','important');
-        el.style.setProperty('pointer-events','none','important');
-      });
+    while(cur&&cur!==document.body){
+      cur.dataset.wakFocusKeep='1';
+      ancestors.push(cur);
+      cur=cur.parentElement;
     }
 
-    // Simpan referensi main untuk cleanup
+    // Sembunyikan elemen berdasarkan selector WordPress
+    document.querySelectorAll(HIDE_SEL).forEach(function(el){
+      if(el.dataset.wakFocusKeep||el.closest('[data-wak-focus-keep]'))return;
+      if(el.id==='wak'||el.closest('#wak'))return;
+      el.dataset.wakFocusHide='1';
+      el.style.setProperty('display','none','important');
+    });
+
+    // Sembunyikan semua child body yang tidak mengandung konten
+    Array.prototype.forEach.call(document.body.children,function(el){
+      if(el.id==='wak'||el.id==='wak-ruler'||el.id==='wak-svgfilter')return;
+      if(el.dataset.wakFocusKeep||el.contains(main))return;
+      if(el.dataset.wakFocusHide)return; // sudah disembunyikan
+      el.dataset.wakFocusHide='1';
+      el.style.setProperty('display','none','important');
+    });
+
+    // Semua ancestor: pastikan visible
+    ancestors.forEach(function(el){
+      el.style.removeProperty('display');
+      el.style.removeProperty('visibility');
+    });
+
+    // Konten utama: tambahkan style baca yang nyaman
+    main.dataset.wakFocusMain='1';
+    addStyle('wak-focus-main',
+      '[data-wak-focus-main]{'+
+        'max-width:720px!important;margin:2rem auto!important;'+
+        'padding:1.5rem!important;background:#fff!important;'+
+        'border-radius:8px!important;box-shadow:0 2px 20px rgba(0,0,0,.08)!important;'+
+      '}'
+    );
+
     E.focusMain=main;
 
   } else {
-    // Kembalikan semua elemen yang disembunyikan/diredupkan
+    // Kembalikan semua
     document.querySelectorAll('[data-wak-focus-hide]').forEach(function(el){
-      el.style.removeProperty('visibility');
-      el.style.removeProperty('pointer-events');
+      el.style.removeProperty('display');
       delete el.dataset.wakFocusHide;
     });
-    document.querySelectorAll('[data-wak-focus-dim]').forEach(function(el){
-      el.style.removeProperty('opacity');
-      el.style.removeProperty('pointer-events');
-      delete el.dataset.wakFocusDim;
+    document.querySelectorAll('[data-wak-focus-keep]').forEach(function(el){
+      delete el.dataset.wakFocusKeep;
     });
-    E.focusMain=null;
+    if(E.focusMain){
+      delete E.focusMain.dataset.wakFocusMain;
+      E.focusMain=null;
+    }
+    removeStyle('wak-focus-main');
   }
 }
 
