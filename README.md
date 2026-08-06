@@ -43,6 +43,16 @@ Lihat live: **[godzam.github.io/widget-aksesibilitas](https://godzam.github.io/w
 
 ## Instalasi
 
+
+### Cara 0 — Plugin WordPress (termudah) ⭐
+
+1. Download **[widget-aksesibilitas.zip](https://github.com/godzam/widget-aksesibilitas/raw/main/wordpress-plugin/widget-aksesibilitas.zip)**
+2. WordPress Admin → Plugins → Add New → Upload Plugin
+3. Upload ZIP → Install Now → Activate
+4. **Settings → Aksesibilitas** — atur warna, posisi, dan fitur via UI
+
+Plugin menyediakan halaman settings lengkap dengan preview tombol langsung.
+
 ### Cara 1 — CDN (paling mudah)
 
 ```html
@@ -254,3 +264,4 @@ Yang bisa dikontribusikan: perbaikan bug, fitur aksesibilitas baru, terjemahan l
 ---
 
 *Jika widget ini bermanfaat untuk project Anda, pertimbangkan memberi ⭐ di GitHub.*
+
